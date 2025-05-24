@@ -22,18 +22,18 @@ def index():
             rut_proveedores = df_filtrado['Tipo Compra'].dropna().reset_index(drop=True)
             folios = df_filtrado['Razon Social'].astype(str).dropna().reset_index(drop=True)
 
-            # Cargar archivo base fijo desde la carpeta actual (api/)
+            # Leer archivo base desde /api
             base_path = os.path.dirname(__file__)
             base_file = os.path.join(base_path, 'archivo_base_fijo.csv')
             df_base = pd.read_csv(base_file, encoding='latin1', sep=';', dtype=str)
 
-            # Armar DataFrame resultante
+            # Reemplazar datos
             min_filas = min(len(rut_proveedores), len(folios))
             df_modificada = df_base.iloc[:min_filas].copy()
             df_modificada['Rut-DV'] = rut_proveedores[:min_filas]
             df_modificada['Folio_Doc'] = folios[:min_filas]
 
-            # Guardar en archivo temporal (compatible con Vercel)
+            # Guardar archivo temporal para Vercel
             temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".csv")
             df_modificada.to_csv(temp_file.name, index=False, sep=';', encoding='latin1')
             temp_file.close()
