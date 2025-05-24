@@ -45,5 +45,5 @@ def index():
 
     return render_template('index.html')
 
-def handler(request):
-    return app
+# Esta línea es clave para que Vercel detecte la app
+app = app
