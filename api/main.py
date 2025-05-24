@@ -45,5 +45,10 @@ def index():
 
     return render_template('index.html')
 
-# Esta línea es clave para que Vercel detecte la app
+# ✅ Ruta para evitar 404 del favicon en los logs
+@app.route('/favicon.ico')
+def favicon():
+    return '', 204
+
+# ✅ Vercel detecta esta app automáticamente
 app = app
